@@ -7,7 +7,6 @@ import javafx.scene.control.Button;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
 import javafx.scene.shape.Circle;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -25,6 +24,7 @@ public class Main extends Application {
 
     // make a list that contain the circular buttons which has the results
     public Button[] resultButtonsList = new Button[16];
+    public CircleButton[] resultButtonsList2 = new CircleButton[16];
 
 // launch the application
     public static void main(String[] args) {
@@ -37,52 +37,61 @@ public class Main extends Application {
         GridPane gridPane = new GridPane();
         // make a new scene
         Scene scene = new Scene(gridPane);
-        // make a list to check if the number is taken or not
+
+// Make the square buttons
 
         // make the 9 buttons that will show out on the screen using for loop
-
         for (int i = 0; i < buttonsList.length; i++) {
             // a new button is created inside the for loop with a fixed sized
-            buttonsList[i] = new Button("");
-            buttonsList[i].setStyle("-fx-font-size: 5em; ");
+            buttonsList[i] = new Button(""); // set text to empty
+            buttonsList[i].setStyle("-fx-font-size: 5em; "); // set the size of font
+            // set the size
             buttonsList[i].setMinHeight(100);
             buttonsList[i].setMinWidth(100);
         }
 
-
+// make the buttons clickable and add the handlers using a for loop
         for (int i = 0; i < 9; i++) {
-            int finalI = i;
+            // make a value that represent the button location in the gridPane
+            int buttonLocation = i;
             buttonsList[i].setOnMouseClicked(mouseEvent ->
                     {
 
                         if (mouseEvent.getButton() == MouseButton.PRIMARY) {
-                            increaseButtonNumber(finalI);
+                            // if the click come from Primary button increase the number inside the button
+                            increaseButtonNumber(buttonLocation);
+                          // if the click come from the secondary button so set the button to empty
                         } else if (mouseEvent.getButton() == MouseButton.SECONDARY) {
-                            setToEmpty(finalI);
+                            setToEmpty(buttonLocation);
                         }
-
+                        // after make a change in the numbers call the function that will update the circleButtonsValue
                         resultCircleValues();
-
-
                     }
             );
         }
 
+// set the buttons in the grid pane
 
-        // adding the buttons in the gridPane using a for loop
+        // adding the  buttons in the gridPane using a for loop
         int counter = 0; // the counter is used for moving inside the list elements
         for (int i = 1; i < 4; i++) {
             for (int j = 1; j < 4; j++) {
                 gridPane.add(buttonsList[counter++], j, i);
             }
         }
+// define the circleButtons using a for loop
         for (int i = 0; i < 16; i++) {
+            // initialize the button and set a size
+            //#resultButtonsList2[i] = new CircleButton(10,50,50);
             resultButtonsList[i] = new Button();
             resultButtonsList[i].setShape(new Circle(10));
             resultButtonsList[i].setMinWidth(50);
             resultButtonsList[i].setMinHeight(50);
         }
+
+        // make a counter that will be used to add the circleButtons to the grid pane
         counter = 0;
+
         for (int j = 0; j < 5; j++) {
             if (j == 0 || j == 4) {
                 for (int k = 0; k < 5; k++) {
@@ -90,12 +99,10 @@ public class Main extends Application {
                     GridPane.setMargin(resultButtonsList[counter], new Insets(20, 20, 20, 20));
                     resultButtonsList[counter].setText(0 + "");
                     counter++;
-
                     if (k != 0 && k != 4) {
                         gridPane.add(resultButtonsList[counter], k, j);
                         GridPane.setMargin(resultButtonsList[counter], new Insets(20, 20, 20, 20));
                         resultButtonsList[counter].setText(0 + "");
-
                         counter++;
                     }
 
@@ -103,40 +110,37 @@ public class Main extends Application {
             }
         }
 
-
-
-
         stage.setTitle("Magic Square Game");
         stage.setScene(scene);
         stage.show();
-
-
     }
 
-
+// a function that will set the value or the text of the button to empty
     private void setToEmpty(int buttonIndex) {
-
+        // check if the button is empty or not
         if (!buttonsList[buttonIndex].getText().equals("")) {
+            // remove the inside number from the duplicate list to make the number available for use
             checkDuplicate.remove(checkDuplicate.indexOf(Integer.parseInt(buttonsList[buttonIndex].getText())));
             buttonsList[buttonIndex].setText("");
         }
     }
 
-
+// a function that will increase the button number
     public void increaseButtonNumber(int buttonIndex) {
         int index = 0;
         boolean isChecked = true;
         if (buttonsList[buttonIndex].getText().equals("")) {
             while (isChecked) {
+                // check if the net number is available or not
                 if (!checkDuplicate.contains(index + 1)) {
                     buttonsList[buttonIndex].setText(index + 1 + "");
                     checkDuplicate.add(index + 1);
+                    // stop the loop
                     isChecked = false;
-                } else {
 
+                // if not so try the next one
+                } else
                     index++;
-                }
-
             }
         } else {
             index = Integer.parseInt(buttonsList[buttonIndex].getText());
@@ -153,13 +157,10 @@ public class Main extends Application {
 
                     isChecked = false;
                 } else {
-
                     index++;
                     if (index >= 9) {
                         index = 0;
                     }
-
-
                 }
             }
         }
