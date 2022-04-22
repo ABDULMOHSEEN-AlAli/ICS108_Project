@@ -24,7 +24,6 @@ public class Main extends Application {
 
     // make a list that contain the circular buttons which has the results
     public Button[] resultButtonsList = new Button[16];
-    public CircleButton[] resultButtonsList2 = new CircleButton[16];
 
     // launch the application
     public static void main(String[] args) {
@@ -82,7 +81,6 @@ public class Main extends Application {
 // define the circleButtons using a for loop
         for (int i = 0; i < 16; i++) {
             // initialize the button and set a size
-            //#resultButtonsList2[i] = new CircleButton(10,50,50);
             resultButtonsList[i] = new Button();
             resultButtonsList[i].setShape(new Circle(10));
             resultButtonsList[i].setMinWidth(50);
