@@ -3,22 +3,24 @@ package com.example.project_ics108;
 import javafx.scene.control.Button;
 import javafx.scene.shape.Circle;
 
-public class CircleButton {
-    private Button button = new Button();
+public class CircleButton extends Button {
+
+    public Button button = new Button();
     private String buttonText;
     private String buttonColor;
 
     CircleButton(int radius,int width, int height){
+
         button.setShape(new Circle(radius));
         button.setMinHeight(height);
         button.setMinWidth(width);
     }
 
-    // change or set a text for the button
-    public void setText(String text){
-        buttonText = text;
-        button.setText(buttonText);
-    }
+//    // change or set a text for the button
+//    public void setText(String text){
+//        buttonText = text;
+//        button.setText(buttonText);
+//    }
     // Change button color function
     public void setColor(String buttonColor){
         this.buttonColor = "-fx-border-color:"+buttonColor+";";
@@ -31,4 +33,9 @@ public class CircleButton {
         button.setText(total+"");
     }
 
+
+
+//    public String getText() {
+//        return button.getText();
+//    }
 }

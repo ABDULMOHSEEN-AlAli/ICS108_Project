@@ -23,8 +23,8 @@ public class Main extends Application {
     public Button[] buttonsList = new Button[9];
 
     // make a list that contain the circular buttons which has the results
-    public Button[] resultButtonsList = new Button[16];
-    public CircleButton[] resultButtonsList2 = new CircleButton[16];
+    //public Button[] resultButtonsList = new Button[16];
+    public CircleButton[] resultButtonsList = new CircleButton[16];
 
 // launch the application
     public static void main(String[] args) {
@@ -83,10 +83,7 @@ public class Main extends Application {
         for (int i = 0; i < 16; i++) {
             // initialize the button and set a size
             //#resultButtonsList2[i] = new CircleButton(10,50,50);
-            resultButtonsList[i] = new Button();
-            resultButtonsList[i].setShape(new Circle(10));
-            resultButtonsList[i].setMinWidth(50);
-            resultButtonsList[i].setMinHeight(50);
+            resultButtonsList[i] = new CircleButton(10,50,50);
         }
 
         // make a counter that will be used to add the circleButtons to the grid pane
@@ -178,7 +175,7 @@ public class Main extends Application {
         }
 
 
-        resultButtonsList[0].setText((resultButtonsValue.get(0)) + resultButtonsValue.get(4) + resultButtonsValue.get(8) + "");
+        resultButtonsList[0].updateValue((resultButtonsValue.get(0)), resultButtonsValue.get(4), resultButtonsValue.get(8));
         resultButtonsList[15].setText(Integer.parseInt(resultButtonsList[0].getText()) + "");
 
         resultButtonsList[1].setText((resultButtonsValue.get(0)) + (resultButtonsValue.get(1)) + (resultButtonsValue.get(2)) + "");
@@ -202,7 +199,7 @@ public class Main extends Application {
         resultButtonsList[8].setText((resultButtonsValue.get(2)) + (resultButtonsValue.get(4)) + (resultButtonsValue.get(6)) + "");
         resultButtonsList[7].setText(Integer.parseInt(resultButtonsList[8].getText()) + "");
 
-        for (Button button : resultButtonsList) {
+        for (CircleButton button : resultButtonsList) {
             if (Integer.parseInt(button.getText()) == 15)
                 button.setStyle("-fx-border-color:green;");
             else
