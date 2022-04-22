@@ -23,10 +23,10 @@ public class Main extends Application {
     public Button[] buttonsList = new Button[9];
 
     // make a list that contain the circular buttons which has the results
-    //public Button[] resultButtonsList = new Button[16];
-    public CircleButton[] resultButtonsList = new CircleButton[16];
+    public Button[] resultButtonsList = new Button[16];
+    public CircleButton[] resultButtonsList2 = new CircleButton[16];
 
-// launch the application
+    // launch the application
     public static void main(String[] args) {
         launch();
     }
@@ -60,7 +60,7 @@ public class Main extends Application {
                         if (mouseEvent.getButton() == MouseButton.PRIMARY) {
                             // if the click come from Primary button increase the number inside the button
                             increaseButtonNumber(buttonLocation);
-                          // if the click come from the secondary button so set the button to empty
+                            // if the click come from the secondary button so set the button to empty
                         } else if (mouseEvent.getButton() == MouseButton.SECONDARY) {
                             setToEmpty(buttonLocation);
                         }
@@ -83,7 +83,10 @@ public class Main extends Application {
         for (int i = 0; i < 16; i++) {
             // initialize the button and set a size
             //#resultButtonsList2[i] = new CircleButton(10,50,50);
-            resultButtonsList[i] = new CircleButton(10,50,50);
+            resultButtonsList[i] = new Button();
+            resultButtonsList[i].setShape(new Circle(10));
+            resultButtonsList[i].setMinWidth(50);
+            resultButtonsList[i].setMinHeight(50);
         }
 
         // make a counter that will be used to add the circleButtons to the grid pane
@@ -112,7 +115,7 @@ public class Main extends Application {
         stage.show();
     }
 
-// a function that will set the value or the text of the button to empty
+    // a function that will set the value or the text of the button to empty
     private void setToEmpty(int buttonIndex) {
         // check if the button is empty or not
         if (!buttonsList[buttonIndex].getText().equals("")) {
@@ -122,7 +125,7 @@ public class Main extends Application {
         }
     }
 
-// a function that will increase the button number
+    // a function that will increase the button number
     public void increaseButtonNumber(int buttonIndex) {
         int index = 0;
         boolean isChecked = true;
@@ -135,7 +138,7 @@ public class Main extends Application {
                     // stop the loop
                     isChecked = false;
 
-                // if not so try the next one
+                    // if not so try the next one
                 } else
                     index++;
             }
@@ -175,7 +178,7 @@ public class Main extends Application {
         }
 
 
-        resultButtonsList[0].updateValue((resultButtonsValue.get(0)), resultButtonsValue.get(4), resultButtonsValue.get(8));
+        resultButtonsList[0].setText((resultButtonsValue.get(0)) + resultButtonsValue.get(4) + resultButtonsValue.get(8) + "");
         resultButtonsList[15].setText(Integer.parseInt(resultButtonsList[0].getText()) + "");
 
         resultButtonsList[1].setText((resultButtonsValue.get(0)) + (resultButtonsValue.get(1)) + (resultButtonsValue.get(2)) + "");
@@ -199,7 +202,7 @@ public class Main extends Application {
         resultButtonsList[8].setText((resultButtonsValue.get(2)) + (resultButtonsValue.get(4)) + (resultButtonsValue.get(6)) + "");
         resultButtonsList[7].setText(Integer.parseInt(resultButtonsList[8].getText()) + "");
 
-        for (CircleButton button : resultButtonsList) {
+        for (Button button : resultButtonsList) {
             if (Integer.parseInt(button.getText()) == 15)
                 button.setStyle("-fx-border-color:green;");
             else
