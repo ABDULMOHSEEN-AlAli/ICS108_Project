@@ -24,7 +24,7 @@ public class Main extends Application {
 
     // make a list that contain the circular buttons which has the results
     public Button[] resultButtonsList = new Button[16];
-    public CircleButton[] resultButtonsList2 = new CircleButton[16];
+    public Button[] resultButtonsList2 = new Button[16];
 
 // launch the application
     public static void main(String[] args) {
