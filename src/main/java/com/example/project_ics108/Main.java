@@ -3,7 +3,6 @@ package com.example.project_ics108;
 import javafx.application.Application;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -12,7 +11,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
@@ -86,9 +84,12 @@ public class Main extends Application {
                         }
                         // after make a change in the numbers call the function that will update the circleButtonsValue
                         resultCircleValues();
-                        if(PopupCheck()){
+
+                        popup();
+                        if(Popup.isExit){
                             stage.close();
-                        };
+                            Popup.changeIsExit();
+                        }
 
 
 
@@ -148,12 +149,10 @@ public class Main extends Application {
                 "    -fx-text-fill: white;" +
                 "    -fx-font-size: 15px;");
         clean.setOnAction(e -> {
-            try {
-                restart();
-                stage.close();
-            } catch (IOException ex) {
-                ex.printStackTrace();
+            for (int i = 0; i<buttonsList.length;i++){
+                setToEmpty(i);
             }
+            resultCircleValues();
         });
         Button exit = new Button("Exit");
         gamePagePane.add(exit,4,0);
@@ -213,12 +212,9 @@ public class Main extends Application {
 //---------------------------STAGE-SETTING------------------------------//
 
         stage.setTitle("Magic Square Game");
-        if(isGamePage){
-            stage.setScene(gamePageScene);
-        }
-        else {
-            stage.setScene(homePageScene);
-        }
+
+        stage.setScene(homePageScene);
+
         stage.show();
     }
 
@@ -320,24 +316,19 @@ public class Main extends Application {
         }
 
     }
-    public void restart() throws IOException {
-        checkDuplicate.removeAll(checkDuplicate);
-        Popup.changeIsRestart();
-        isGamePage = true;
-        start(new Stage());
-    }
-    public boolean PopupCheck() {
+
+    public void popup() {
         boolean condition = (Integer.parseInt(resultButtonsList[0].getText()) == 15 && Integer.parseInt(resultButtonsList[1].getText()) == 15 && Integer.parseInt(resultButtonsList[3].getText()) == 15 && Integer.parseInt(resultButtonsList[5].getText()) == 15 && Integer.parseInt(resultButtonsList[2].getText()) == 15 && Integer.parseInt(resultButtonsList[4].getText()) == 15 && Integer.parseInt(resultButtonsList[6].getText()) == 15 && Integer.parseInt(resultButtonsList[8].getText()) == 15);
         if (condition){
             boolean x = Popup.display();
             if (x){
-                try {
-                    restart();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
+                for (int i = 0; i<buttonsList.length;i++){
+                    setToEmpty(i);
                 }
+                resultCircleValues();
+                Popup.changeIsRestart();
             }
         }
-        return condition;
+
     }
 }

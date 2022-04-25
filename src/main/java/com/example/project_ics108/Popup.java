@@ -21,6 +21,8 @@ import java.util.ArrayList;
 
 public class Popup {
     public static boolean isRestart = false;
+    public static boolean isExit = false;
+
     public static boolean display(){
         Stage window = new Stage();
 
@@ -57,10 +59,15 @@ public class Popup {
 
         GridPane.setMargin(playAgain, new Insets(0, 20, 0, 20));
         GridPane.setMargin(popExit, new Insets(10, 20, 20, 20));
-        popExit.setOnAction(e -> window.close());
-        playAgain.setOnAction(e -> {
-            isRestart = true;
+        popExit.setOnAction(e -> {
             window.close();
+            isExit = true;
+
+
+        });
+        playAgain.setOnAction(e -> {
+            window.close();
+            isRestart = true;
         } );
 
         window.setScene(popupPageScene);
@@ -72,6 +79,9 @@ public class Popup {
 
     public static void changeIsRestart() {
         isRestart = false;
+    }
+    public static void changeIsExit() {
+        isExit = false;
     }
 }
 
