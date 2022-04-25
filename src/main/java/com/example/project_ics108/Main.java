@@ -1,21 +1,29 @@
 package com.example.project_ics108;
 // import the FX libraries
 import javafx.application.Application;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
 
 // make a main class that contain the main function
 public class Main extends Application {
-
+    public boolean isGamePage = false;
     // created a list that will contain the numbers, and deal with duplicated
     public ArrayList<Integer> checkDuplicate = new ArrayList<Integer>();
 
@@ -33,10 +41,21 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+
+
+//---------------------------POPUP-PAGE-SCENE---------------------------//
+
+
+
+
+
+
+//---------------------------GAME-PAGE-SCENE---------------------------//
         // make a gridPane
-        GridPane gridPane = new GridPane();
+        GridPane gamePagePane = new GridPane();
         // make a new scene
-        Scene scene = new Scene(gridPane);
+        Scene gamePageScene = new Scene(gamePagePane);
+
 
 // Make the square buttons
 
@@ -60,12 +79,19 @@ public class Main extends Application {
                         if (mouseEvent.getButton() == MouseButton.PRIMARY) {
                             // if the click come from Primary button increase the number inside the button
                             increaseButtonNumber(buttonLocation);
-                          // if the click come from the secondary button so set the button to empty
+
+                            // if the click come from the secondary button so set the button to empty
                         } else if (mouseEvent.getButton() == MouseButton.SECONDARY) {
                             setToEmpty(buttonLocation);
                         }
                         // after make a change in the numbers call the function that will update the circleButtonsValue
                         resultCircleValues();
+                        if(PopupCheck()){
+                            stage.close();
+                        };
+
+
+
                     }
             );
         }
@@ -76,7 +102,7 @@ public class Main extends Application {
         int counter = 0; // the counter is used for moving inside the list elements
         for (int i = 1; i < 4; i++) {
             for (int j = 1; j < 4; j++) {
-                gridPane.add(buttonsList[counter++], j, i);
+                gamePagePane.add(buttonsList[counter++], j, i+1);
             }
         }
 // define the circleButtons using a for loop
@@ -95,12 +121,12 @@ public class Main extends Application {
         for (int j = 0; j < 5; j++) {
             if (j == 0 || j == 4) {
                 for (int k = 0; k < 5; k++) {
-                    gridPane.add(resultButtonsList[counter], j, k);
+                    gamePagePane.add(resultButtonsList[counter], j, k+1);
                     GridPane.setMargin(resultButtonsList[counter], new Insets(20, 20, 20, 20));
                     resultButtonsList[counter].setText(0 + "");
                     counter++;
                     if (k != 0 && k != 4) {
-                        gridPane.add(resultButtonsList[counter], k, j);
+                        gamePagePane.add(resultButtonsList[counter], k, j+1);
                         GridPane.setMargin(resultButtonsList[counter], new Insets(20, 20, 20, 20));
                         resultButtonsList[counter].setText(0 + "");
                         counter++;
@@ -109,13 +135,96 @@ public class Main extends Application {
                 }
             }
         }
+        Button clean = new Button("Clean");
+        gamePagePane.add(clean,2,6);
+        clean.setStyle("-fx-background-color: " +
+                "        #000000," +
+                "        linear-gradient(#7ebcea, #2f4b8f)," +
+                "        linear-gradient(#426ab7, #263e75)," +
+                "        linear-gradient(#395cab, #223768);" +
+                "    -fx-background-insets: 0,1,2,3;" +
+                "    -fx-background-radius: 3,2,2,2;" +
+                "    -fx-padding: 12 30 12 30;" +
+                "    -fx-text-fill: white;" +
+                "    -fx-font-size: 15px;");
+        clean.setOnAction(e -> {
+            try {
+                restart();
+                stage.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
+        Button exit = new Button("Exit");
+        gamePagePane.add(exit,4,0);
+
+        exit.setStyle("-fx-background-color: " +
+                "        linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%)," +
+                "        #9d4024," +
+                "        #d86e3a," +
+                "        radial-gradient(center 50% 50%, radius 100%, #d86e3a, #c54e2c);" +
+                "    -fx-background-insets: 0,1,2,3;" +
+                "    -fx-background-radius: 3,2,2,2;" +
+                "    -fx-padding: 12 33 12 33;" +
+                "    -fx-text-fill: white;" +
+                "    -fx-font-size: 15px;");
+        exit.setOnAction(e -> stage.close());
+//---------------------------HOME-PAGE-SCENE--------------------------//
+        // make a gridPane
+        GridPane homePagePane = new GridPane();
+        // make a new scene
+        Scene homePageScene = new Scene(homePagePane);
+
+        homePagePane.setStyle("-fx-background-color:white");
+
+        Label title = new Label("Magic Square");
+        title.setStyle("-fx-font-weight: bold;" + "-fx-font-size:40px;" + "-fx-text-fill:#555555");
+
+        Image image = new Image(new FileInputStream("image.gif"));
+        ImageView imageView = new ImageView(image);
+        imageView.setX(48);
+        imageView.setY(25);
+        imageView.setFitHeight(455);
+        imageView.setFitWidth(500);
+        imageView.setPreserveRatio(true);
+        homePagePane.add(imageView,0,0);
+
+        homePagePane.add(title,0,0);
+        homePagePane.setValignment(title, VPos.TOP);
+        homePagePane.setHalignment(title, HPos.CENTER);
+
+        Button startButton = new Button("Start");
+        Button exitButton = new Button("Exit");
+        startButton.setStyle("-fx-background-color:#D8AC9C;" + "-fx-font-weight: bold;" + "-fx-font-size:18px;");
+        exitButton.setStyle("-fx-background-color:#D8AC9C;" + "-fx-font-weight: bold;" + "-fx-font-size:18px;");
+        startButton.setMinHeight(45);
+        startButton.setMinWidth(80);
+        exitButton.setMinHeight(45);
+        exitButton.setMinWidth(80);
+        homePagePane.add(startButton,0,0);
+        homePagePane.add(exitButton,0,1);
+        homePagePane.setValignment(startButton, VPos.BOTTOM);
+        homePagePane.setHalignment(startButton, HPos.CENTER);
+        homePagePane.setHalignment(exitButton, HPos.CENTER);
+        GridPane.setMargin(exitButton, new Insets(20, 20, 20, 20));
+
+        startButton.setOnAction(e -> {stage.setScene(gamePageScene);});
+        exitButton.setOnAction(e -> stage.close());
+//---------------------------STAGE-SETTING------------------------------//
 
         stage.setTitle("Magic Square Game");
-        stage.setScene(scene);
+        if(isGamePage){
+            stage.setScene(gamePageScene);
+        }
+        else {
+            stage.setScene(homePageScene);
+        }
         stage.show();
     }
 
-// a function that will set the value or the text of the button to empty
+
+
+    // a function that will set the value or the text of the button to empty
     private void setToEmpty(int buttonIndex) {
         // check if the button is empty or not
         if (!buttonsList[buttonIndex].getText().equals("")) {
@@ -210,5 +319,25 @@ public class Main extends Application {
 
         }
 
+    }
+    public void restart() throws IOException {
+        checkDuplicate.removeAll(checkDuplicate);
+        Popup.changeIsRestart();
+        isGamePage = true;
+        start(new Stage());
+    }
+    public boolean PopupCheck() {
+        boolean condition = (Integer.parseInt(resultButtonsList[0].getText()) == 15 && Integer.parseInt(resultButtonsList[1].getText()) == 15 && Integer.parseInt(resultButtonsList[3].getText()) == 15 && Integer.parseInt(resultButtonsList[5].getText()) == 15 && Integer.parseInt(resultButtonsList[2].getText()) == 15 && Integer.parseInt(resultButtonsList[4].getText()) == 15 && Integer.parseInt(resultButtonsList[6].getText()) == 15 && Integer.parseInt(resultButtonsList[8].getText()) == 15);
+        if (condition){
+            boolean x = Popup.display();
+            if (x){
+                try {
+                    restart();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        return condition;
     }
 }
