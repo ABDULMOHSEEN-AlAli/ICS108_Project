@@ -1,5 +1,4 @@
 package com.example.project_ics108;
-// import the FX libraries
 import javafx.application.Application;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -13,7 +12,6 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
-
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,16 +19,14 @@ import java.util.ArrayList;
 
 // make a main class that contain the main function
 public class Main extends Application {
-    public boolean isGamePage = false;
     // created a list that will contain the numbers, and deal with duplicated
-    public ArrayList<Integer> checkDuplicate = new ArrayList<Integer>();
+    public ArrayList<Integer> checkDuplicate = new ArrayList<>();
 
     // make a list that contain the buttons of the magic square
     public Button[] buttonsList = new Button[9];
 
     // make a list that contain the circular buttons which has the results
     public Button[] resultButtonsList = new Button[16];
-    public Button[] resultButtonsList2 = new Button[16];
 
 // launch the application
     public static void main(String[] args) {
@@ -39,15 +35,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-
-
-//---------------------------POPUP-PAGE-SCENE---------------------------//
-
-
-
-
-
-
 //---------------------------GAME-PAGE-SCENE---------------------------//
         // make a gridPane
         GridPane gamePagePane = new GridPane();
@@ -55,7 +42,7 @@ public class Main extends Application {
         Scene gamePageScene = new Scene(gamePagePane);
 
 
-// Make the square buttons
+    // Make the square buttons
 
         // make the 9 buttons that will show out on the screen using for loop
         for (int i = 0; i < buttonsList.length; i++) {
@@ -85,9 +72,12 @@ public class Main extends Application {
                         // after make a change in the numbers call the function that will update the circleButtonsValue
                         resultCircleValues();
 
-                        popup();
-                        if(Popup.isExit){
+                        // here we call popup function in order to check if the answers are correct it will show popup page.
+                        popUp();
+                        // here it will check whether click exit button is clicked and if it is clicked it will close the stage.
+                        if(Popup.getIsExit()){
                             stage.close();
+                            // here call the function change isExist to make its value false so the stage does not close if the exit button is not clicked
                             Popup.changeIsExit();
                         }
 
@@ -109,7 +99,6 @@ public class Main extends Application {
 // define the circleButtons using a for loop
         for (int i = 0; i < 16; i++) {
             // initialize the button and set a size
-            //#resultButtonsList2[i] = new CircleButton(10,50,50);
             resultButtonsList[i] = new Button();
             resultButtonsList[i].setShape(new Circle(10));
             resultButtonsList[i].setMinWidth(50);
@@ -136,8 +125,13 @@ public class Main extends Application {
                 }
             }
         }
+        // Defining clean and exit buttons.
         Button clean = new Button("Clean");
+        Button exit = new Button("Exit");
+        // Adding the buttons to the pane.
         gamePagePane.add(clean,2,6);
+        gamePagePane.add(exit,4,0);
+        // styling the button using css.
         clean.setStyle("-fx-background-color: " +
                 "        #000000," +
                 "        linear-gradient(#7ebcea, #2f4b8f)," +
@@ -148,15 +142,6 @@ public class Main extends Application {
                 "    -fx-padding: 12 30 12 30;" +
                 "    -fx-text-fill: white;" +
                 "    -fx-font-size: 15px;");
-        clean.setOnAction(e -> {
-            for (int i = 0; i<buttonsList.length;i++){
-                setToEmpty(i);
-            }
-            resultCircleValues();
-        });
-        Button exit = new Button("Exit");
-        gamePagePane.add(exit,4,0);
-
         exit.setStyle("-fx-background-color: " +
                 "        linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%)," +
                 "        #9d4024," +
@@ -167,54 +152,67 @@ public class Main extends Application {
                 "    -fx-padding: 12 33 12 33;" +
                 "    -fx-text-fill: white;" +
                 "    -fx-font-size: 15px;");
+        // Adding action to clean and exit buttons.
+        clean.setOnAction(e -> {
+            for (int i = 0; i<buttonsList.length;i++){
+                setToEmpty(i);
+            }
+            resultCircleValues();
+        });
         exit.setOnAction(e -> stage.close());
+
+
 //---------------------------HOME-PAGE-SCENE--------------------------//
         // make a gridPane
         GridPane homePagePane = new GridPane();
         // make a new scene
         Scene homePageScene = new Scene(homePagePane);
-
+        // putting color to the pane background using css.
         homePagePane.setStyle("-fx-background-color:white");
-
+        // Defining the title label .
         Label title = new Label("Magic Square");
+        // Styling the title using css.
         title.setStyle("-fx-font-weight: bold;" + "-fx-font-size:40px;" + "-fx-text-fill:#555555");
-
-        Image image = new Image(new FileInputStream("image.gif"));
-        ImageView imageView = new ImageView(image);
-        imageView.setX(48);
-        imageView.setY(25);
+        // Defining imageView object.
+        ImageView imageView = new ImageView(new Image(new FileInputStream("image.gif")));
+        // Editing the image coordinates.
         imageView.setFitHeight(455);
         imageView.setFitWidth(500);
+        // the usage of this method is to preserve the aspect ratio of the source image when scaling to fit the image within the fitting bounding box.
         imageView.setPreserveRatio(true);
+        // Adding the image and the title to the pane.
         homePagePane.add(imageView,0,0);
-
         homePagePane.add(title,0,0);
-        homePagePane.setValignment(title, VPos.TOP);
-        homePagePane.setHalignment(title, HPos.CENTER);
+        // Setting the alignment of the title.
+        GridPane.setValignment(title, VPos.TOP);
+        GridPane.setHalignment(title, HPos.CENTER);
 
+        // Defining start and exit buttons.
         Button startButton = new Button("Start");
         Button exitButton = new Button("Exit");
+        // Styling the buttons and changing their width and height.
         startButton.setStyle("-fx-background-color:#D8AC9C;" + "-fx-font-weight: bold;" + "-fx-font-size:18px;");
         exitButton.setStyle("-fx-background-color:#D8AC9C;" + "-fx-font-weight: bold;" + "-fx-font-size:18px;");
         startButton.setMinHeight(45);
         startButton.setMinWidth(80);
         exitButton.setMinHeight(45);
         exitButton.setMinWidth(80);
+        // Adding the buttons to the pane.
         homePagePane.add(startButton,0,0);
         homePagePane.add(exitButton,0,1);
-        homePagePane.setValignment(startButton, VPos.BOTTOM);
-        homePagePane.setHalignment(startButton, HPos.CENTER);
-        homePagePane.setHalignment(exitButton, HPos.CENTER);
+        // Setting the alignment of the buttons and adding margin.
+        GridPane.setValignment(startButton, VPos.BOTTOM);
+        GridPane.setHalignment(startButton, HPos.CENTER);
+        GridPane.setHalignment(exitButton, HPos.CENTER);
         GridPane.setMargin(exitButton, new Insets(20, 20, 20, 20));
-
-        startButton.setOnAction(e -> {stage.setScene(gamePageScene);});
+        // Adding action to the buttons.
+        startButton.setOnAction(e -> stage.setScene(gamePageScene));
         exitButton.setOnAction(e -> stage.close());
 //---------------------------STAGE-SETTING------------------------------//
 
+        // Putting title to the stage and setting a scene to it and show it.
         stage.setTitle("Magic Square Game");
-
         stage.setScene(homePageScene);
-
         stage.show();
     }
 
@@ -272,13 +270,13 @@ public class Main extends Application {
     }
 
     public void resultCircleValues() {
-        ArrayList<Integer> resultButtonsValue = new ArrayList<Integer>();
-        for (int i = 0; i < buttonsList.length; i++) {
-            if (buttonsList[i].getText().equals("")) {
+        ArrayList<Integer> resultButtonsValue = new ArrayList<>();
+        for (Button value : buttonsList) {
+            if (value.getText().equals("")) {
                 resultButtonsValue.add(0);
 
             } else {
-                resultButtonsValue.add(Integer.parseInt(buttonsList[i].getText()));
+                resultButtonsValue.add(Integer.parseInt(value.getText()));
             }
         }
 
@@ -317,15 +315,22 @@ public class Main extends Application {
 
     }
 
-    public void popup() {
+    // Defining the function pop up to check if the answers is right it shows pop up.
+    public void popUp() {
+        // The condition to check the answers
         boolean condition = (Integer.parseInt(resultButtonsList[0].getText()) == 15 && Integer.parseInt(resultButtonsList[1].getText()) == 15 && Integer.parseInt(resultButtonsList[3].getText()) == 15 && Integer.parseInt(resultButtonsList[5].getText()) == 15 && Integer.parseInt(resultButtonsList[2].getText()) == 15 && Integer.parseInt(resultButtonsList[4].getText()) == 15 && Integer.parseInt(resultButtonsList[6].getText()) == 15 && Integer.parseInt(resultButtonsList[8].getText()) == 15);
+        // Here it checks if the condition is valid.
         if (condition){
-            boolean x = Popup.display();
-            if (x){
+            // Here it calls display method from Popup class to show the popup and it returns true if the play again button is the button that the user press otherwise it will return false.
+            boolean playAgainOrExit = Popup.display();
+            // It checks if playAgain button is pressed it removes the values using for loop and setToEmpty function
+            if (playAgainOrExit){
                 for (int i = 0; i<buttonsList.length;i++){
                     setToEmpty(i);
                 }
+                // Here call the resultCircleValues function to delete the result buttons values.
                 resultCircleValues();
+                // Here it calls the function changeIsRestart from the class Popup to make sure it does not return true when the exit button is pressed.
                 Popup.changeIsRestart();
             }
         }
