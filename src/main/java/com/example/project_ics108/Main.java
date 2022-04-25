@@ -216,6 +216,7 @@ public class Main extends Application {
 //---------------------------STAGE-SETTING------------------------------//
 
         // Putting title to the stage and setting a scene to it and show it.
+        stage.getIcons().add(new Image(new FileInputStream("Cube.png")));
         stage.setTitle("Magic Square Game");
         stage.setScene(homePageScene);
         stage.show();
