@@ -15,6 +15,7 @@ import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -72,7 +73,11 @@ public class Main extends Application {
                         resultCircleValues();
 
                         // here we call popup function in order to check if the answers are correct it will show popup page.
-                        popUp();
+                        try {
+                            popUp();
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
                         // here it will check whether click exit button is clicked and if it is clicked it will close the stage.
                         if (Popup.getIsExit()) {
                             stage.close();
@@ -328,7 +333,7 @@ public class Main extends Application {
     }
 
     // Defining the function pop up to check if the answers is right it shows pop up.
-    public void popUp() {
+    public void popUp() throws FileNotFoundException {
         // The condition to check the answers
         boolean condition = (Integer.parseInt(resultButtonsList[0].getText()) == 15 && Integer.parseInt(resultButtonsList[1].getText()) == 15 && Integer.parseInt(resultButtonsList[3].getText()) == 15 && Integer.parseInt(resultButtonsList[5].getText()) == 15 && Integer.parseInt(resultButtonsList[2].getText()) == 15 && Integer.parseInt(resultButtonsList[4].getText()) == 15 && Integer.parseInt(resultButtonsList[6].getText()) == 15 && Integer.parseInt(resultButtonsList[8].getText()) == 15);
         // Here it checks if the condition is valid.

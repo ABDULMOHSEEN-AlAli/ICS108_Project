@@ -4,10 +4,14 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 
 public class Popup {
@@ -16,7 +20,7 @@ public class Popup {
     public static boolean isExit = false; // The benefit of this variable is that the main class chick its value to know whether the exit button is pressed or not.
 
     // Defining display function which will display the popup when it is needed.
-    public static boolean display(){
+    public static boolean display() throws FileNotFoundException {
         // Defining the stage.
         Stage popUpStage = new Stage();
 
@@ -33,7 +37,7 @@ public class Popup {
         // Styling congratulations.
         congratulations.setStyle("-fx-font-size: 20px;" + "-fx-font-weight: bold;" );
         // Adding margin to congratulations.
-        GridPane.setMargin(congratulations, new Insets(20, 20, 20, 20));
+        GridPane.setMargin(congratulations, new Insets(40, 40, 40, 40));
         // Adding congratulations to the pane.
         popupPagePane.add(congratulations,0,0);
         // Setting the alignment of congratulations to the center.
@@ -72,6 +76,8 @@ public class Popup {
 
         // the use of initModality method and showAndWait  is to make shore that the game page is not pressable while the popup page is working.
         popUpStage.initModality(Modality.APPLICATION_MODAL);
+        popUpStage.getIcons().add(new Image(new FileInputStream("Cube.png")));
+
         popUpStage.setTitle("Winner"); // Adding title to the stage.
         popUpStage.setScene(popupPageScene); // Adding scene to the stage.
         popUpStage.showAndWait();
