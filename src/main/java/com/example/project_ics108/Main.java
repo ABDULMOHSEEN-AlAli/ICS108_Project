@@ -347,6 +347,10 @@ public class Main extends Application {
                 }
                 // Here call the resultCircleValues function to delete the result buttons values.
                 resultCircleValues();
+                // Make the color of the resultButtons to the default color.
+                for (Button button : resultButtonsList) {
+                    button.setStyle("-fx-border-color:#747982;");
+                }
                 // Here it calls the function changeIsRestart from the class Popup to make sure it does not return true when the exit button is pressed.
                 Popup.changeIsRestart();
             }
