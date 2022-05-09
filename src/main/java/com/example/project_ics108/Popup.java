@@ -17,7 +17,6 @@ import java.io.FileNotFoundException;
 public class Popup {
     // Defining static variables isRestart and isExit
     public static boolean isRestart = false; // The benefit of this variable is that the function display return it so the main class know if the play again button is pressed or not.
-    public static boolean isExit = false; // The benefit of this variable is that the main class chick its value to know whether the exit button is pressed or not.
 
     // Defining display function which will display the popup when it is needed.
     public static boolean display() throws FileNotFoundException {
@@ -64,7 +63,6 @@ public class Popup {
         // Adding action to the buttons.
         popExit.setOnAction(e -> {
             popUpStage.close();
-            isExit = true;
         });
         playAgain.setOnAction(e -> {
             popUpStage.close();
@@ -85,17 +83,10 @@ public class Popup {
         // Returning isRestart value to indicate if playAgain button is pressed or not.
         return isRestart;
     }
-    // a method to get isExit value.
-    public static boolean getIsExit() {
-        return isExit;
-    }
     // a method to change isRestart value.
     public static void changeIsRestart() {
         isRestart = false;
     }
-    // a method to change isExit value
-    public static void changeIsExit() {
-        isExit = false;
-    }
+
 }
 

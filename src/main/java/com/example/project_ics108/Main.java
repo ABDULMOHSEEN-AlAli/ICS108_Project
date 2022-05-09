@@ -72,18 +72,36 @@ public class Main extends Application {
                         // after make a change in the numbers call the function that will update the circleButtonsValue
                         resultCircleValues();
 
-                        // here we call popup function in order to check if the answers are correct it will show popup page.
-                        try {
-                            popUp();
-                        } catch (FileNotFoundException e) {
-                            e.printStackTrace();
+                        // here we define condition variable to check if all the result buttons equal 15.
+                        boolean condition = (Integer.parseInt(resultButtonsList[0].getText()) == 15 && Integer.parseInt(resultButtonsList[1].getText()) == 15 && Integer.parseInt(resultButtonsList[3].getText()) == 15 && Integer.parseInt(resultButtonsList[5].getText()) == 15 && Integer.parseInt(resultButtonsList[2].getText()) == 15 && Integer.parseInt(resultButtonsList[4].getText()) == 15 && Integer.parseInt(resultButtonsList[6].getText()) == 15 && Integer.parseInt(resultButtonsList[8].getText()) == 15);
+                        // Here it checks if the condition is valid.
+                        if (condition) {
+                            // Here it calls display method from Popup class to show the popup and it returns true if the play again button is the button that the user press otherwise it will return false.
+                            boolean playAgainOrExit = false;
+                            try {
+                                playAgainOrExit = Popup.display();
+                            } catch (FileNotFoundException e) {
+                                e.printStackTrace();
+                            }
+                            // It checks if playAgain button is pressed it removes the values using for loop and setToEmpty function
+                            if (playAgainOrExit) {
+                                for (int j = 0; j < buttonsList.length; j++) {
+                                    setToEmpty(j);
+                                }
+                                // Here call the resultCircleValues function to delete the result buttons values.
+                                resultCircleValues();
+                                // Here it calls the function changeIsRestart from the class Popup to make sure it does not return true when the exit button is pressed.
+                                Popup.changeIsRestart();
+
+                                for (Button button : resultButtonsList) {
+                                    button.setStyle("-fx-border-color:#747982;");
+                                }
+                            }
+                            else{
+                                stage.close();
+                            }
                         }
-                        // here it will check whether click exit button is clicked and if it is clicked it will close the stage.
-                        if (Popup.getIsExit()) {
-                            stage.close();
-                            // here call the function change isExist to make its value false so the stage does not close if the exit button is not clicked
-                            Popup.changeIsExit();
-                        }
+
                     }
             );
         }
@@ -332,26 +350,5 @@ public class Main extends Application {
         button.setMinWidth(width);
     }
 
-    // Defining the function pop up to check if the answers is right it shows pop up.
-    public void popUp() throws FileNotFoundException {
-        // The condition to check the answers
-        boolean condition = (Integer.parseInt(resultButtonsList[0].getText()) == 15 && Integer.parseInt(resultButtonsList[1].getText()) == 15 && Integer.parseInt(resultButtonsList[3].getText()) == 15 && Integer.parseInt(resultButtonsList[5].getText()) == 15 && Integer.parseInt(resultButtonsList[2].getText()) == 15 && Integer.parseInt(resultButtonsList[4].getText()) == 15 && Integer.parseInt(resultButtonsList[6].getText()) == 15 && Integer.parseInt(resultButtonsList[8].getText()) == 15);
-        // Here it checks if the condition is valid.
-        if (condition) {
-            // Here it calls display method from Popup class to show the popup and it returns true if the play again button is the button that the user press otherwise it will return false.
-            boolean playAgainOrExit = Popup.display();
-            // It checks if playAgain button is pressed it removes the values using for loop and setToEmpty function
-            if (playAgainOrExit) {
-                for (int i = 0; i < buttonsList.length; i++) {
-                    setToEmpty(i);
-                }
-                // Here call the resultCircleValues function to delete the result buttons values.
-                resultCircleValues();
-                // Here it calls the function changeIsRestart from the class Popup to make sure it does not return true when the exit button is pressed.
-                Popup.changeIsRestart();
-            }
-        }
-
-    }
 
 }
