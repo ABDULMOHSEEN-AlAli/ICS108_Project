@@ -350,5 +350,4 @@ public class Main extends Application {
         button.setMinWidth(width);
     }
 
-
 }
